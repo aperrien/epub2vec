@@ -109,7 +109,7 @@ for root, dirs, files in os.walk('.'):
                         locations.append(location)
                         paragraphs.append(paragraph)
                         words = paragraph.split()
-                        vector = np.ndarray(num_features)
+                        vector = np.zeros(num_features,dtype=float)
                         in_model_count = 0
                         for w in words:
                             if w in model.vocab:
@@ -120,10 +120,11 @@ for root, dirs, files in os.walk('.'):
                         else:
                             average_vector = vector
                         vectors.append(average_vector)
+
 # Set "k" (num_clusters) to be 1/6th of the number of paragraph vectors, or an
 # average of 5 "similar paragraphs" per cluster
 p_vectors = np.array(vectors)
 num_clusters = p_vectors.shape[0] / 6
 
 kmeans_clustering = KMeans( n_clusters = num_clusters )
-kmeans_clustering.fit_predict( p_vectors )
+cluster_index = kmeans_clustering.fit_predict( p_vectors )
