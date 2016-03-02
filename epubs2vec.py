@@ -1,6 +1,9 @@
 import os
 import zipfile
+import pandas as pd
+import numpy as np
 import re
+import nltk.data
 from bs4 import BeautifulSoup
 files = os.listdir('.')
 
@@ -29,3 +32,26 @@ for root, dirs, files in os.walk('.'):
             [s.extract() for s in soup('epub:switch')]
             filetext = soup.find('body').get_text()
             chapters.append(filetext)
+
+df = pd.DataFrame({'bookids':bookids,'filenames':filenames,'chapters':chapters},columns=['bookids','filenames','chapters'])
+
+tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+
+def chapter_to_wordlist(chapter):
+    chapter = re.sub("[^a-zA-Z]"," ", chapter)
+    chapter_words = chapter.lower().split()
+    return(chapter_words)
+
+def chapter_to_sentences( chapter, tokenizer):
+    raw_sentences = tokenizer.tokenize(chapter.strip())
+    sentences = []
+    for raw_sentence in raw_sentences:
+        if len(raw_sentence) > 0:
+            sentences.append( chapter_to_wordlist( raw_sentence))
+    return sentences
+
+sentences = []
+
+for chapter in df['chapters']:
+    sentences += chapter_to_sentences(chapter, tokenizer)
+
