@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import re
 import nltk.data
+import csv
 import logging
 from bs4 import BeautifulSoup
 from gensim.models import word2vec
@@ -31,9 +32,9 @@ for root, dirs, files in os.walk('.'):
     for filename in files:
         if '.xhtml' in filename:
             full_filepath = root + '/' + filename
-            bookids.append(re.sub(r'./(.*?)/.*',r'\1',root))
+            bookids.append(re.sub(r'./temp/(.*?)/.*',r'\1',root))
             filenames.append(filename)
-            print 'gathering text from ' + re.sub(r'./(.*?)/.*',r'\1',root) + '\t' + filename
+            print 'gathering text from ' + re.sub(r'./temp/(.*?)/.*',r'\1',root) + '\t' + filename
             soup = BeautifulSoup(open(full_filepath), 'lxml')
             [s.extract() for s in soup('script')]
             [s.extract() for s in soup('epub:switch')]
@@ -84,6 +85,7 @@ model.save(model_name)
 paragraphs = []
 vectors = []
 locations = []
+p_bookids = []
 
 print 'gathering paragraphs...'
 for root, dirs, files in os.walk('.'):
@@ -105,8 +107,9 @@ for root, dirs, files in os.walk('.'):
                     if location_id is None:
                         next
                     else:
-                        location = full_filepath + '#' + str(location_id)
+                        location = filename + '#' + str(location_id)
                         locations.append(location)
+                        p_bookids.append(re.sub(r'./temp/(.*?)/.*',r'\1',root))
                         paragraphs.append(paragraph)
                         words = paragraph.split()
                         vector = np.zeros(num_features,dtype=float)
@@ -128,3 +131,22 @@ num_clusters = p_vectors.shape[0] / 11
 
 kmeans_clustering = KMeans( n_clusters = num_clusters, n_jobs = -1 )
 cluster_indices = kmeans_clustering.fit_predict( p_vectors )
+
+p_index_cluster_index_map = dict(zip(range(len(paragraphs)),cluster_indices))
+
+with open('cluster_output.csv', 'w') as cluster_output:
+    fieldnames = ['cluster_id','book', 'location', 'text']
+    writer = csv.DictWriter(cluster_output, fieldnames=fieldnames)
+    writer.writeheader()
+
+    # Print out some clusters!
+    for cluster in range(0,num_clusters):
+        p_indices = []
+        for i in xrange(0,len(p_index_cluster_index_map.values())):
+            if( p_index_cluster_index_map.values()[i] == cluster ):
+                p_indices.append(p_index_cluster_index_map.keys()[i])
+
+        print 'Outputting cluster %d' % cluster + ' - ' + str(len(p_indices)) + ' paragraphs.'
+
+        for p_index in p_indices:
+            writer.writerow({'cluster_id':cluster,'book': p_bookids[p_index], 'location': locations[p_index], 'text':paragraphs[p_index].encode('utf-8')})
