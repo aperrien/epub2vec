@@ -22,5 +22,5 @@ Background info:
 |Exploding .epubs into folders|< 1 min|
 |Extracting sentences from .xhtml files|2 min|
 |Create word2vec model|4 min|
-|Extract paragraphs and calculate paragraph vectors|2 min|
+|Extract paragraphs and calculate paragraph vectors|5 min|
 |Run k means clustering|5 min|

@@ -90,8 +90,7 @@ for root, dirs, files in os.walk('.'):
     for filename in files:
         if '.xhtml' in filename:
             full_filepath = root + '/' + filename
-            print 'gathering paragraphs from ' + re.sub(r'./(.*?)/.*',r'\1',root) + '\t' + filename
-            print full_filepath
+            print 'gathering paragraphs from ' + re.sub(r'./temp/(.*?)/.*',r'\1',root) + '\t' + filename
             soup = BeautifulSoup(open(full_filepath), 'lxml')
             [s.extract() for s in soup('script')]
             [s.extract() for s in soup('epub:switch')]
@@ -111,7 +110,20 @@ for root, dirs, files in os.walk('.'):
                         paragraphs.append(paragraph)
                         words = paragraph.split()
                         vector = np.ndarray(num_features)
+                        in_model_count = 0
                         for w in words:
                             if w in model.vocab:
+                                in_model_count += 1
                                 vector = vector + model[w]
-                        vectors.append(vector)
+                        if in_model_count > 0:
+                            average_vector = vector / in_model_count
+                        else:
+                            average_vector = vector
+                        vectors.append(average_vector)
+# Set "k" (num_clusters) to be 1/6th of the number of paragraph vectors, or an
+# average of 5 "similar paragraphs" per cluster
+p_vectors = np.array(vectors)
+num_clusters = p_vectors.shape[0] / 6
+
+kmeans_clustering = KMeans( n_clusters = num_clusters )
+kmeans_clustering.fit_predict( p_vectors )
