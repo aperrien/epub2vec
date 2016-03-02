@@ -9,6 +9,7 @@ Goals of this script:
 To run:
 
 * Include .epub files in the root directory alongside this script...run it.
+* I highly recommend installing the anaconda Python distribution and using conda for further module installations as needed: https://www.continuum.io/downloads
 
 Background info:
 
