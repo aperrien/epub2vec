@@ -83,6 +83,7 @@ model.save(model_name)
 
 paragraphs = []
 vectors = []
+locations = []
 
 print 'gathering paragraphs...'
 for root, dirs, files in os.walk('.'):
@@ -99,6 +100,14 @@ for root, dirs, files in os.walk('.'):
                 if paragraph == '':
                     next
                 else:
+                    location_id = s.parent.get('id')
+                    if location_id is None:
+                        location_id = s.parent.parent.get('id')
+                    if location_id is None:
+                        next
+                    else:
+                        location = full_filepath + '#' + str(location_id)
+                        locations.append(location)
                         paragraphs.append(paragraph)
                         words = paragraph.split()
                         vector = np.ndarray(num_features)
