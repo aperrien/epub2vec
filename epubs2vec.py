@@ -71,3 +71,11 @@ model = word2vec.Word2Vec(sentences, workers=num_workers, \
             size=num_features, min_count = min_word_count, \
             window = context, sample = downsampling)
 
+model.init_sims(replace=True)
+
+# save the model for later use. You can load it later using Word2Vec.load()
+# >>> from gensim.models import Word2Vec
+# >>> model = Word2Vec.load("300features_40minwords_10context.w2v")
+# TODO add an arg when running the script to create the model or load one and skip everything before this point
+model_name = str(num_features) + 'features_' + str(min_word_count) + 'minwords_' + str(context) + 'context.w2v'
+model.save(model_name)
