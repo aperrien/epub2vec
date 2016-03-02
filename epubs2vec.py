@@ -4,7 +4,13 @@ import pandas as pd
 import numpy as np
 import re
 import nltk.data
+import logging
 from bs4 import BeautifulSoup
+from gensim.models import word2vec
+
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',\
+    level=logging.INFO)
+
 files = os.listdir('.')
 
 epubs = [x for x in files if '.epub' in x]
@@ -54,4 +60,14 @@ sentences = []
 
 for chapter in df['chapters']:
     sentences += chapter_to_sentences(chapter, tokenizer)
+
+num_features = 750   # Word vector dimensionality
+min_word_count = 5    # Minimum word count
+num_workers = 4       # Number of threads to run in parallel
+context = 25          # Context window size
+downsampling = 1e-2   # Downsample setting for frequent words
+
+model = word2vec.Word2Vec(sentences, workers=num_workers, \
+            size=num_features, min_count = min_word_count, \
+            window = context, sample = downsampling)
 
