@@ -25,5 +25,7 @@ for root, dirs, files in os.walk('.'):
             filenames.append(filename)
             print 'gathering text from ' + re.sub(r'./(.*?)/.*',r'\1',root) + '\t' + filename
             soup = BeautifulSoup(open(full_filepath), 'lxml')
+            [s.extract() for s in soup('script')]
+            [s.extract() for s in soup('epub:switch')]
             filetext = soup.find('body').get_text()
             chapters.append(filetext)
