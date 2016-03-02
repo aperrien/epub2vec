@@ -14,3 +14,10 @@ Background info:
 
 * This script owes a lot to this set of Kaggle NLP tutorials: https://www.kaggle.com/c/word2vec-nlp-tutorial
 * Specifically for more info on tweaking the word2vec hyperparameters see this page: https://www.kaggle.com/c/word2vec-nlp-tutorial/details/part-2-word-vectors
+* Some benchmarks...processing 20 large economics textbooks on a Macbook Pro w/ 8 GB RAM, times for each step were roughly:
+||Step||Time||
+|Exploding .epubs into folders|< 1 min|
+|Extracting sentences from .xhtml files|2 min|
+|Create word2vec model|4 min|
+|Extract paragraphs and calculate paragraph vectors|2 min|
+|Run k means clustering|5 min|
