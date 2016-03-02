@@ -9,3 +9,8 @@ Goals of this script:
 To run:
 
 * Include .epub files in the root directory alongside this script...run it.
+
+Background info:
+
+* This script owes a lot to this set of Kaggle NLP tutorials: https://www.kaggle.com/c/word2vec-nlp-tutorial
+* Specifically for more info on tweaking the word2vec hyperparameters see this page: https://www.kaggle.com/c/word2vec-nlp-tutorial/details/part-2-word-vectors
