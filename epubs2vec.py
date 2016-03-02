@@ -7,6 +7,7 @@ import nltk.data
 import logging
 from bs4 import BeautifulSoup
 from gensim.models import word2vec
+from sklearn.cluster import KMeans
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',\
     level=logging.INFO)
@@ -79,3 +80,29 @@ model.init_sims(replace=True)
 # TODO add an arg when running the script to create the model or load one and skip everything before this point
 model_name = str(num_features) + 'features_' + str(min_word_count) + 'minwords_' + str(context) + 'context.w2v'
 model.save(model_name)
+
+paragraphs = []
+vectors = []
+
+print 'gathering paragraphs...'
+for root, dirs, files in os.walk('.'):
+    for filename in files:
+        if '.xhtml' in filename:
+            full_filepath = root + '/' + filename
+            print 'gathering paragraphs from ' + re.sub(r'./(.*?)/.*',r'\1',root) + '\t' + filename
+            print full_filepath
+            soup = BeautifulSoup(open(full_filepath), 'lxml')
+            [s.extract() for s in soup('script')]
+            [s.extract() for s in soup('epub:switch')]
+            for s in soup('p'):
+                paragraph = s.get_text()
+                if paragraph == '':
+                    next
+                else:
+                        paragraphs.append(paragraph)
+                        words = paragraph.split()
+                        vector = np.ndarray(num_features)
+                        for w in words:
+                            if w in model.vocab:
+                                vector = vector + model[w]
+                        vectors.append(vector)
