@@ -141,13 +141,15 @@ for root, dirs, files in os.walk('.'):
                             average_vector = vector
                         vectors.append(average_vector)
 
+num_paragraphs = len(paragraphs)
+
 log_time = time.time()
 print 'paragraph vectors computed at: ' + time.strftime("%Y/%m/%d, %H:%M:%S", time.localtime(log_time))
 
 # Set "k" (num_clusters) to be 1/11th of the number of paragraph vectors, or an
 # average of 10 "similar paragraphs" per cluster
 p_vectors = np.array(vectors)
-num_clusters = p_vectors.shape[0] / 11
+num_clusters = num_paragraphs / 21
 
 kmeans_clustering = KMeans( n_clusters = num_clusters, n_jobs = -1 )
 cluster_indices = kmeans_clustering.fit_predict( p_vectors )
@@ -155,7 +157,6 @@ cluster_indices = kmeans_clustering.fit_predict( p_vectors )
 log_time = time.time()
 print 'k-means clustering complete at: ' + time.strftime("%Y/%m/%d, %H:%M:%S", time.localtime(log_time))
 
-p_index_cluster_index_map = dict(zip(range(len(paragraphs)),cluster_indices))
 
 with open('cluster_output.csv', 'w') as cluster_output:
     fieldnames = ['cluster_id','book', 'location', 'text']
@@ -165,9 +166,9 @@ with open('cluster_output.csv', 'w') as cluster_output:
     # Print out some clusters!
     for cluster in range(0,num_clusters):
         p_indices = []
-        for i in xrange(0,len(p_index_cluster_index_map.values())):
-            if( p_index_cluster_index_map.values()[i] == cluster ):
-                p_indices.append(p_index_cluster_index_map.keys()[i])
+        for i in range(0,num_paragraphs):
+            if( cluster_indices[i] == cluster ):
+                p_indices.append(i)
 
         # print 'Outputting cluster %d' % cluster + ' - ' + str(len(p_indices)) + ' paragraphs.'
 
