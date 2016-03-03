@@ -77,10 +77,10 @@ log_time = time.time()
 print 'sentences extracted at: ' + time.strftime("%Y/%m/%d, %H:%M:%S", time.localtime(log_time))
 
 num_features = 750   # Word vector dimensionality
-min_word_count = 5    # Minimum word count
-num_workers = 4       # Number of threads to run in parallel
-context = 25          # Context window size
-downsampling = 1e-2   # Downsample setting for frequent words
+min_word_count = 10    # Minimum word count
+num_workers = 6       # Number of threads to run in parallel
+context = 20          # Context window size
+downsampling = 1e-3   # Downsample setting for frequent words
 
 model = word2vec.Word2Vec(sentences, workers=num_workers, \
             size=num_features, min_count = min_word_count, \
@@ -144,10 +144,10 @@ for root, dirs, files in os.walk('.'):
 num_paragraphs = len(paragraphs)
 
 log_time = time.time()
-print 'paragraph vectors computed at: ' + time.strftime("%Y/%m/%d, %H:%M:%S", time.localtime(log_time))
+print str(num_paragraphs) + ' paragraph vectors computed at: ' + time.strftime("%Y/%m/%d, %H:%M:%S", time.localtime(log_time))
 
-# Set "k" (num_clusters) to be 1/11th of the number of paragraph vectors, or an
-# average of 10 "similar paragraphs" per cluster
+# Set "k" (num_clusters) to be 1/21th of the number of paragraph vectors, or an
+# average of 20 "similar paragraphs" per paragraph
 p_vectors = np.array(vectors)
 num_clusters = num_paragraphs / 21
 
