@@ -74,4 +74,5 @@ And some clusters don't make sense at all ¯\\\_(ツ)\_/¯
 |Tokenize sentences from full text|1 min|
 |Create word2vec model|5 min|
 |Extract paragraphs and calculate paragraph vectors|1 min|
-|Run k means clustering|> 5 hours|
+|Run k means clustering|11 hours|
+|Export data| 30 min|
