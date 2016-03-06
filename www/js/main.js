@@ -17,8 +17,8 @@ $(document).ready(function() {
 				var book = results.data[i][1];
 				var location = results.data[i][2];
 				var text = results.data[i][3];
-				if (cluster == 1) {
-					$('.clusterTable').append('<tr><td><button class="openMe" data-book=' + book + ' data-location=' + location + '>Open</button></td><td>' + cluster + '</td><td>' + book + '</td><td>' + text + '</td></tr>');
+				if (cluster == 4) {
+					$('.clusterTable').append('<tr><td><div class="openMe" data-book=' + book + ' data-location=' + location + '>Open</div></td><td>' + cluster + '</td><td>' + book + '</td><td class="text">' + text + '</td></tr>');
 				}
 			}
 

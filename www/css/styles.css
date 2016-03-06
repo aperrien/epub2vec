@@ -13,11 +13,20 @@
  .results {
    float: right;
    margin-right: 1%;
-   padding: 5px;
+   margin-top:20px;
+   padding: 0 5px 5px 5px;
    width: 59%;
    height: 750px;
    overflow: scroll;
  }
+
+table {
+   border-spacing: 0px;
+}
+
+.clusterNum {
+  width:85px;
+}
 
  .bookviewer {
    float: left;
@@ -104,6 +113,83 @@
    padding-left: 8px;
    padding-right: 8px;
  }
+
+ /* Table styles */
+
+
+
+ .clusterTable {
+     margin: 30px auto;
+     font-family: Roboto, Helvetica, Arial;
+     font-size: 1em;
+     border-spacing: 0px;
+     width: 80%;
+     font-weight: 300;
+ }
+
+ .clusterHeading th {
+   padding: 8px;
+   font-family: Roboto, Helvetica, Arial;
+   font-weight: 300;
+ }
+
+ .clusterTable td {
+     padding: 6px 6px 6px 6px;
+ }
+ .clusterTable th {
+     font-size: 1.1em;
+     padding: 6px 2px 6px 2px;
+     font-weight: 400;
+ }
+ .clusterTable tr {
+     margin-bottom: .5em;
+ }
+
+ thead tr {
+     background-color: #5799db;
+     color: #fff;
+ }
+ thead tr th:first-child {
+     border-top-left-radius: 8px;
+     padding-left: 6px;
+ }
+ thead tr th:last-child {
+     border-top-right-radius: 8px;
+     padding-right: 6px;
+ }
+
+ tbody tr:last-child td:first-child {
+     border-bottom-left-radius: 8px;
+ }
+ tbody tr:last-child td:last-child {
+     border-bottom-right-radius: 8px;
+ }
+
+ th, td {
+     text-align: center;
+ }
+
+ .clusterTable tr:nth-child(odd) {
+     background-color: #eee;
+ }
+ .clusterTable tr:nth-child(even) {
+     background-color: #ccc;
+ }
+
+.text {
+  text-align:left;
+  font-size:14px;
+}
+
+.openMe {
+  background-color: white;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    padding: 5px;
+    border: 1px solid #666;
+    cursor:pointer;
+  }
 
  /* Breakpoint from 2 cards to 1 and shrink the header/buttons */
 
