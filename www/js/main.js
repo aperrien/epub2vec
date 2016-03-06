@@ -95,30 +95,44 @@ var deepLink = function(target,book,link, $button) {
 		$('body').highlight(text);
 		iFramejQuery('body').highlight(text);
 		iFramejQuery('.highlight').css('background-color','yellow');
-	}, 150);
+	}, 250);
 
 }
 
 var currentHighlight = "";
+var currentCluster = $('.clusterPicker').val();
+var clusterData = {};
+$('.activeCluster span').text($('.clusterPicker').val());
+
+var updateActiveCluster = function() {
+	currentCluster = $('.clusterPicker').val();
+	$('.activeCluster span').text($('.clusterPicker').val());
+	$('.clusterTable').children().remove();
+	for (i in clusterData.data) {
+		var cluster = clusterData.data[i][0];
+		var book = clusterData.data[i][1];
+		var location = clusterData.data[i][2];
+		var text = clusterData.data[i][3];
+		if (cluster == currentCluster) {
+			$('.clusterTable').append('<tr><td><div class="openMe" data-book=' + book + ' data-location=' + location + '>Open</div></td><td>' + cluster + '</td><td>' + book + '</td><td class="text">' + text + '</td></tr>');
+		}
+	}
+	$('.openMe').bind('click',function() {
+		var $this = $(this);
+		deepLink('.bookviewer',$(this).attr('data-book'),$(this).attr('data-location'),$this);
+	});
+};
+
 
 $(document).ready(function() {
 	initHighlightAPI($);
 	Papa.parse('clusters/1457125504_cluster_output.csv', {
 		download: true,
 		complete: function(results) {
-			for (i in results.data) {
-				var cluster = results.data[i][0];
-				var book = results.data[i][1];
-				var location = results.data[i][2];
-				var text = results.data[i][3];
-				if (cluster == 4) {
-					$('.clusterTable').append('<tr><td><div class="openMe" data-book=' + book + ' data-location=' + location + '>Open</div></td><td>' + cluster + '</td><td>' + book + '</td><td class="text">' + text + '</td></tr>');
-				}
-			}
-
-			$('.openMe').bind('click',function() {
-				var $this = $(this);
-				deepLink('.bookviewer',$(this).attr('data-book'),$(this).attr('data-location'),$this);
+			clusterData = results;
+			updateActiveCluster();
+			$('.activate').bind('click',function() {
+				updateActiveCluster();
 			});
 		}
 	});
