@@ -1,0 +1,145 @@
+ /* General page styles */
+ * {
+   box-sizing: border-box;
+ }
+
+ body {
+   background-color: #ddd;
+   margin: 0;
+   padding: 0;
+   min-width: 320px;
+ }
+
+ .results {
+   float: right;
+   margin-right: 1%;
+   padding: 5px;
+   width: 59%;
+   height: 750px;
+   overflow: scroll;
+ }
+
+ .bookviewer {
+   float: left;
+   margin-left: 1%;
+   margin-top:20px;
+   width: 37%;
+   height: 750px;
+   border: 1px solid black;
+   background:white;
+ }
+
+.highlight {
+  background-color:yellow;
+}
+
+ button {
+   display: block;
+   text-align:center;
+   margin: 0px auto;
+   height: 32px;
+   font-size: 1.1em;
+ }
+
+ input {
+   display: block;
+   text-align:center;
+   margin: 0px auto 10px;
+   height: 26px;
+   font-size: 1.1em;
+ }
+
+ /* Header/logo/title bar */
+
+ header {
+   height: 68px;
+   background-color: #333;
+   padding: 0;
+   text-align: center;
+   margin-top: 0;
+   top: 0;
+   min-width: 320px;
+   position: fixed;
+   display: block;
+   width: 100%;
+   z-index: 99;
+ }
+ .banner {
+   margin: 0 auto;
+ }
+ .banner-text {
+   color: #fff;
+   font-family: 'Lato';
+   font-weight: 100;
+   font-size: 2.9em;
+   line-height: 1.3em;
+   vertical-align: top;
+   display: inline;
+ }
+ .logo {
+   height: 50px;
+   margin-right: 8px;
+   margin-top: 9px;
+ }
+
+ .button {
+   font-family: 'Droid Serif', serif;
+   font-weight: 400;
+   border: 0 none;
+   border-radius: 3px 3px 3px 3px;
+   cursor: pointer;
+   display: inline-block;
+   font-size: 1.6em;
+   line-height: 44px;
+   vertical-align: top;
+   margin: 10px 20px 0 20px;
+   height: 44px;
+   text-transform: none;
+   transition: background 0.3s ease 0s;
+   -o-transition: background 0.3s ease 0s;
+   -moz-transition: background 0.3s ease 0s;
+   -webkit-transition: background 0.3s ease 0s;
+   background: none repeat scroll 0 0 #999999;
+   color: #FFFFFF;
+   padding-left: 8px;
+   padding-right: 8px;
+ }
+
+ /* Breakpoint from 2 cards to 1 and shrink the header/buttons */
+
+ @media (max-width: 690px) {
+   header {
+     height: 48px;
+     background-color: #333;
+     padding: 0;
+     text-align: center;
+     margin-top: 0;
+     top: 0;
+     min-width: 320px;
+     position: fixed;
+     display: block;
+     width: 100%;
+     z-index: 99;
+   }
+   .banner-text {
+     color: #fff;
+     font-family: 'Lato';
+     font-weight: 100;
+     font-size: 2.2em;
+     line-height: 1.2em;
+     vertical-align: top;
+     display: inline;
+   }
+   .logo {
+     height: 36px;
+     margin-right: 4px;
+     margin-top: 6px;
+   }
+   .button {
+     width: 44px;
+     height: 44px;
+     padding: 0;
+     font-weight: 700;
+     margin: 10px 3% 0 3%;
+   }
+ }

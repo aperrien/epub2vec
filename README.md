@@ -12,8 +12,6 @@
 
 Some example clusters as output from early trial runs (each bullet is a paragraph included in the cluster):
 
-
-
 ##### The best clusters are topic-centric. This one is loosely "Descriptions/definitions of types of bonds or other assets"
 * Monies issued by national monetary authorities.
 * Bonds secured by specific types of equipment or physical assets.
@@ -61,6 +59,13 @@ And some clusters don't make sense at all ¯\\\_(ツ)\_/¯
 * Make sure to install all modules imported by the script as well as cython for a dramatic speed increase (included in conda distribs by default).
 * Include .epub files in the root directory alongside this script...run it. Go do something else for a long time - the clustering step will take quite a while.
 
+#### To explore results
+
+* Start a local web server in the project root directory using 'python -m SimpleHTTPServer 8001'
+* Open http://localhost:8001/www/index.html in your web browser
+* Choose a cluster by number to load that cluster in the results table
+* Click a link to open the chapter of the cluster results in the book viewer
+
 #### Background info
 
 * This script owes a lot to this set of Kaggle NLP tutorials: https://www.kaggle.com/c/word2vec-nlp-tutorial
@@ -69,10 +74,10 @@ And some clusters don't make sense at all ¯\\\_(ツ)\_/¯
 
 |Step|Time|
 |----|----|
-|Explode .epubs into folders|<< 1 min|
-|Extract text from .xhtml files|2 min|
-|Tokenize sentences from full text|1 min|
-|Create word2vec model|5 min|
+|Explode .epubs into folders|< 30 secs|
+|Extract text from .xhtml files|1 min|
+|Tokenize sentences from full text|< 30 secs|
+|Create word2vec model|2 min|
 |Extract paragraphs and calculate paragraph vectors|1 min|
-|Run k means clustering|11 hours|
-|Export data| 30 min|
+|Run k means clustering|9 hours|
+|Export data| 5 min|

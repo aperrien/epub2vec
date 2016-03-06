@@ -1,5 +1,4 @@
-*.epub
-*.w2v
-temp/
-cluster_output.csv
-test_output.csv
+epub-input/*
+www/epub-output/*
+models/*
+www/clusters/*
