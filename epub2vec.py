@@ -17,15 +17,17 @@ logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',\
 start_time = time.time()
 print 'started at: ' + time.strftime("%Y/%m/%d, %H:%M:%S", time.localtime(start_time))
 
-files = os.listdir('.')
+files = os.listdir('epub-input/')
 
 epubs = [x for x in files if '.epub' in x]
+epubids = []
 
 for epub in epubs:
     bookid = re.sub(r'(.*).epub',r'\1',epub)
+    epubids.append(bookid)
     # print 'extracting ' + bookid + '...'
-    with zipfile.ZipFile(epub,'r') as z:
-        z.extractall('./temp/' + str(bookid))
+    with zipfile.ZipFile('epub-input/' + str(epub),'r') as z:
+        z.extractall('./www/epub-output/' + str(bookid))
 
 log_time = time.time()
 print 'books extracted at: ' + time.strftime("%Y/%m/%d, %H:%M:%S", time.localtime(log_time))
@@ -34,19 +36,24 @@ bookids = []
 filenames = []
 chapters = []
 
-print 'gathering xhtml files...'
+print 'gathering xhtml or html files...'
 for root, dirs, files in os.walk('.'):
     for filename in files:
-        if '.xhtml' in filename:
+        if '.xhtml' in filename or '.html' in filename:
             full_filepath = root + '/' + filename
-            bookids.append(re.sub(r'./temp/(.*?)/.*',r'\1',root))
-            filenames.append(filename)
-            # print 'gathering text from ' + re.sub(r'./temp/(.*?)/.*',r'\1',root) + '\t' + filename
-            soup = BeautifulSoup(open(full_filepath), 'lxml')
-            [s.extract() for s in soup('script')]
-            [s.extract() for s in soup('epub:switch')]
-            filetext = soup.find('body').get_text()
-            chapters.append(filetext)
+            bookid = re.sub(r'.*/epub-output/(.*?)/.*',r'\1',root)
+            print bookid
+            if bookid in epubids:
+                bookids.append(bookid)
+                filenames.append(filename)
+                # print 'gathering text from ' + bookid + '\t' + filename
+                soup = BeautifulSoup(open(full_filepath), 'lxml')
+                [s.extract() for s in soup('script')]
+                [s.extract() for s in soup('epub:switch')]
+                filetext = soup.find('body').get_text()
+                chapters.append(filetext)
+            else:
+                # print 'skipping files for ' + str(bookid) + ' from old run'
 
 log_time = time.time()
 print 'chapters extracted at: ' + time.strftime("%Y/%m/%d, %H:%M:%S", time.localtime(log_time))
