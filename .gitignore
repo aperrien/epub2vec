@@ -1,4 +1,1 @@
-epub-input/*
-www/epub-output/*
-models/*
-www/clusters/*
+.DS_Store
