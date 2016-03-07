@@ -12,6 +12,7 @@ var initHighlightAPI = function(jq) {
 	 */
 
 	jq.extend({
+			// TODO make this work even if the <p> node includes styles, links or other spans interrupting the text
 	    highlight: function (node, re, nodeName, className) {
 	        if (node.nodeType === 3) {
 	            var match = node.data.match(re);
@@ -76,7 +77,7 @@ var initHighlightAPI = function(jq) {
 };
 
 var deepLink = function(target,book,link, $button) {
-	var iFrame = "<iframe id='bookFrame' src='epub-output/" + book + "/OEBPS/xhtml/" + link + "' frameborder=0 />";
+	var iFrame = "<iframe id='bookFrame' src='epub-output/" + book + "/" + link + "' frameborder=0 />";
 	$(target).html(iFrame);
 	$(target + ' iframe').css('width','100%');
 	$(target + ' iframe').css('height','100%');
@@ -86,16 +87,32 @@ var deepLink = function(target,book,link, $button) {
 	var textNode = $parent.children()[3];
 	var text = $(textNode).text();
 
+	var loadiFramejQuery = function(iFrameWindow) {
+			var iFramejQuery = iFrameWindow.$;
+			if (typeof iFramejQuery == 'undefined') {
+				var s = iFrameWindow.document.createElement("script");
+				s.type = "text/javascript";
+				s.src = "/www/js/jquery.min.js";
+				s.onload = function() {
+					iFramejQuery = iFrameWindow.$;
+					initHighlightAPI(iFramejQuery);
+					$('body').unhighlight(currentHighlight);
+					iFramejQuery('body').unhighlight(currentHighlight);
+					currentHighlight = text;
+					$('body').highlight(text);
+					iFramejQuery('body').highlight(text);
+					iFramejQuery('.highlight').css('background-color','yellow');
+					iFramejQuery('body').scrollTop(
+					    iFramejQuery('.highlight').offset().top - iFramejQuery('body').offset().top + iFramejQuery('body').scrollTop() - 250
+					);
+				};
+				iFrameWindow.document.head.appendChild(s);
+			}
+	};
+
 	setTimeout(function(){
-		var iFramejQuery = iFrameWindow.$;
-		initHighlightAPI(iFramejQuery);
-		$('body').unhighlight(currentHighlight);
-		iFramejQuery('body').unhighlight(currentHighlight);
-		currentHighlight = text;
-		$('body').highlight(text);
-		iFramejQuery('body').highlight(text);
-		iFramejQuery('.highlight').css('background-color','yellow');
-	}, 250);
+		loadiFramejQuery(iFrameWindow);
+	}, 500);
 
 }
 
@@ -126,7 +143,7 @@ var updateActiveCluster = function() {
 
 $(document).ready(function() {
 	initHighlightAPI($);
-	Papa.parse('clusters/1457125504_cluster_output.csv', {
+	Papa.parse('clusters/1457310922_cluster_output.csv', {
 		download: true,
 		complete: function(results) {
 			clusterData = results;
