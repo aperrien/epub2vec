@@ -8,7 +8,22 @@
 * Using k-means clustering, find the most similar paragraphs across the library of books by clustering "paragraph vectors".
 * Output lists of related/relevant passages that can be linked to each other, presented side by side, etc...something interesting.
 
+#### To run
+
+* I highly recommend installing the anaconda Python distribution and using conda for further module installations as needed: https://www.continuum.io/downloads
+* Make sure to install all modules imported by the script as well as cython for a dramatic speed increase (included in conda distribs by default).
+* Include .epub files in the root directory alongside this script...run it. Go do something else for a long time - the clustering step will take quite a while.
+
+#### To explore results
+
+* Start a local web server in the project root directory using 'python -m SimpleHTTPServer 8001'
+* Open http://localhost:8001/www/index.html in your web browser
+* Choose a cluster by number to load that cluster in the results table
+* Click a link to open the chapter of the cluster results in the book viewer
+
 #### Example Output
+
+The result explorer is hosted here, including results and ebooks content for public domain books (from Project Gutenberg): https://quanticle.co/projects/epub2vec
 
 Some example clusters as output from early trial runs (each bullet is a paragraph included in the cluster):
 
@@ -53,18 +68,6 @@ Some example clusters as output from early trial runs (each bullet is a paragrap
 
 And some clusters don't make sense at all ¯\\\_(ツ)\_/¯
 
-#### To run
-
-* I highly recommend installing the anaconda Python distribution and using conda for further module installations as needed: https://www.continuum.io/downloads
-* Make sure to install all modules imported by the script as well as cython for a dramatic speed increase (included in conda distribs by default).
-* Include .epub files in the root directory alongside this script...run it. Go do something else for a long time - the clustering step will take quite a while.
-
-#### To explore results
-
-* Start a local web server in the project root directory using 'python -m SimpleHTTPServer 8001'
-* Open http://localhost:8001/www/index.html in your web browser
-* Choose a cluster by number to load that cluster in the results table
-* Click a link to open the chapter of the cluster results in the book viewer
 
 #### Background info
 
