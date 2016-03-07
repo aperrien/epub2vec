@@ -140,17 +140,41 @@ var updateActiveCluster = function() {
 	});
 };
 
-
-$(document).ready(function() {
-	initHighlightAPI($);
-	Papa.parse('clusters/1457310922_cluster_output.csv', {
+var loadClusters = function(clusterCSV) {
+	Papa.parse('clusters/' + clusterCSV, {
 		download: true,
 		complete: function(results) {
 			clusterData = results;
 			updateActiveCluster();
-			$('.activate').bind('click',function() {
+			$('.value').bind('click',function() {
+				updateActiveCluster();
+			});
+			$('.next').bind('click',function() {
+				var currentVal = Math.floor($('.clusterPicker').val());
+				$('.clusterPicker').val(currentVal + 1);
+				updateActiveCluster();
+			});
+			$('.prev').bind('click',function() {
+				var currentVal = Math.floor($('.clusterPicker').val());
+				$('.clusterPicker').val(currentVal - 1);
 				updateActiveCluster();
 			});
 		}
+	});
+};
+
+$(document).ready(function() {
+	$('.results').hide()
+	initHighlightAPI($);
+	$.get('clusters/available-clusters.txt',function(data){
+		var files = data.split("\n");
+		files.map(function(file){
+			$('.filelist').append("<div class='filename'>" + file + "</div>");
+		});
+		$('.filename').bind('click',function() {
+			loadClusters($.trim($(this).text()));
+			$('.resultPicker').hide();
+			$('.results').show();
+		});
 	});
 });

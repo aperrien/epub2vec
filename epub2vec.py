@@ -181,6 +181,9 @@ with open('www/clusters/' + str(int(start_time)) + '_cluster_output.csv', 'w') a
         for p_index in p_indices:
             writer.writerow({'cluster_id':cluster,'book': p_bookids[p_index], 'location': locations[p_index], 'text':paragraphs[p_index].encode('utf-8')})
 
+with open('www/clusters/available-clusters.txt', 'a') as filelist:
+    filelist.write('\n' + str(int(start_time)) + '_cluster_output.csv')
+
 end_time = time.time()
 print 'finished outputting csv at: ' + time.strftime("%Y/%m/%d, %H:%M:%S", time.localtime(end_time))
 print 'total time elapsed: ' + str(end_time - start_time) + ' seconds.'
